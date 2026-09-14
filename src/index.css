@@ -1,0 +1,336 @@
+/* Mantine owns the visual baseline (see `@mantine/core/styles.css` in main.tsx).
+   Keep this file for app-wide rules that are not expressible through the theme. */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'cv05' 1, 'ss01' 1;
+}
+
+/* Optical tightening on display type — Inter runs a touch wide at large sizes. */
+:where(h1, h2, h3, .mantine-Title-root) {
+  letter-spacing: -0.02em;
+}
+:where(h1, .mantine-Title-root[data-order='1']) {
+  letter-spacing: -0.03em;
+}
+
+/* Figures line up in columns: stats, tables, amounts. */
+.mantine-Table-table,
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Brand aura behind the surfaces that render outside the app shell (login, 404).
+   The tint has to be built per scheme: the pale end of the ramp reads as grey fog on dark. */
+.brand-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60rem 40rem at 50% -10%,
+      color-mix(in srgb, var(--mantine-color-brand-2) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40rem 30rem at 90% 100%,
+      color-mix(in srgb, var(--mantine-color-brand-1) 60%, transparent),
+      transparent 65%
+    );
+}
+[data-mantine-color-scheme='dark'] .brand-backdrop {
+  background:
+    radial-gradient(
+      60rem 40rem at 50% -10%,
+      color-mix(in srgb, var(--mantine-color-brand-5) 20%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      40rem 30rem at 90% 100%,
+      color-mix(in srgb, var(--mantine-color-brand-7) 22%, transparent),
+      transparent 65%
+    );
+}
+
+/* Brand-tinted display figure — the 404 slug. Clears 3:1 against the body in both schemes. */
+.display-numeral {
+  color: var(--mantine-color-brand-5);
+  letter-spacing: -0.04em;
+}
+[data-mantine-color-scheme='dark'] .display-numeral {
+  color: var(--mantine-color-brand-4);
+}
+
+/* ---- App shell ground --------------------------------------------------- */
+/* The sidebar and header stay white; the working area drops back so cards read
+   as raised without needing heavy shadow. */
+.mantine-AppShell-main {
+  background-color: var(--mantine-color-gray-0);
+}
+.mantine-AppShell-navbar,
+.mantine-AppShell-header {
+  background-color: var(--mantine-color-white);
+}
+[data-mantine-color-scheme='dark'] .mantine-AppShell-main {
+  background-color: var(--mantine-color-dark-8);
+}
+[data-mantine-color-scheme='dark'] .mantine-AppShell-navbar,
+[data-mantine-color-scheme='dark'] .mantine-AppShell-header {
+  background-color: var(--mantine-color-dark-7);
+}
+
+/* ---- Sidebar navigation ------------------------------------------------- */
+/* Active state is a neutral raised pill with a brand-coloured icon, not a
+   saturated fill — it holds up next to the tinted status badges on the page. */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--mantine-radius-md);
+  color: var(--mantine-color-gray-7);
+  font-size: var(--mantine-font-size-md);
+  font-weight: 500;
+  line-height: 1.2;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+.nav-item:hover {
+  background-color: var(--mantine-color-gray-0);
+  color: var(--mantine-color-gray-9);
+}
+.nav-item[data-active] {
+  background-color: var(--mantine-color-gray-1);
+  color: var(--mantine-color-gray-9);
+  font-weight: 600;
+}
+.nav-item[data-collapsed] {
+  justify-content: center;
+  padding-inline: 0;
+}
+.nav-item__icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--mantine-color-gray-5);
+  transition: color 140ms ease;
+}
+.nav-item:hover .nav-item__icon {
+  color: var(--mantine-color-gray-7);
+}
+.nav-item[data-active] .nav-item__icon {
+  color: var(--mantine-color-brand-6);
+}
+
+[data-mantine-color-scheme='dark'] .nav-item {
+  color: var(--mantine-color-dark-1);
+}
+[data-mantine-color-scheme='dark'] .nav-item:hover {
+  background-color: var(--mantine-color-dark-6);
+  color: var(--mantine-color-white);
+}
+[data-mantine-color-scheme='dark'] .nav-item[data-active] {
+  background-color: var(--mantine-color-dark-5);
+  color: var(--mantine-color-white);
+}
+[data-mantine-color-scheme='dark'] .nav-item__icon {
+  color: var(--mantine-color-dark-2);
+}
+[data-mantine-color-scheme='dark'] .nav-item[data-active] .nav-item__icon {
+  color: var(--mantine-color-brand-4);
+}
+
+/* Anything using .nav-item is either a link or a button — strip the defaults. */
+.nav-item {
+  text-decoration: none;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* Collapsible group: the chevron points right when shut, down when open. */
+.nav-group__chevron {
+  display: flex;
+  margin-left: auto;
+  color: var(--mantine-color-gray-5);
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-group__chevron[data-open] {
+  transform: rotate(90deg);
+}
+[data-mantine-color-scheme='dark'] .nav-group__chevron {
+  color: var(--mantine-color-dark-2);
+}
+
+/* Child links hang off a tree line that drops from under the parent's icon. */
+.nav-children {
+  position: relative;
+  margin: 2px 0 2px 22px;
+  padding-left: 14px;
+}
+.nav-children::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 14px;
+  width: 1px;
+  background-color: var(--mantine-color-gray-3);
+}
+.nav-child {
+  position: relative;
+}
+.nav-child::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 9px;
+  height: 1px;
+  background-color: var(--mantine-color-gray-3);
+}
+[data-mantine-color-scheme='dark'] .nav-children::before,
+[data-mantine-color-scheme='dark'] .nav-child::before {
+  background-color: var(--mantine-color-dark-4);
+}
+
+/* A parent holding the current route: marked by weight and a live icon, but no
+   fill — otherwise it competes with the actual active child stacked below it. */
+.nav-item[data-within] {
+  color: var(--mantine-color-gray-9);
+  font-weight: 600;
+}
+.nav-item[data-within] .nav-item__icon {
+  color: var(--mantine-color-brand-6);
+}
+[data-mantine-color-scheme='dark'] .nav-item[data-within] {
+  color: var(--mantine-color-white);
+}
+[data-mantine-color-scheme='dark'] .nav-item[data-within] .nav-item__icon {
+  color: var(--mantine-color-brand-4);
+}
+
+/* Children sit a step down the hierarchy from their parent. */
+.nav-item--child {
+  padding: 8px 10px;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+}
+/* The child carries no icon, so its active state is carried by colour. */
+.nav-item--child[data-active] {
+  background-color: var(--mantine-color-brand-0);
+  color: var(--mantine-color-brand-7);
+  font-weight: 600;
+}
+[data-mantine-color-scheme='dark'] .nav-item--child[data-active] {
+  background-color: var(--mantine-color-dark-5);
+  color: var(--mantine-color-brand-3);
+}
+
+/* Small caps section label above a nav group. */
+.nav-label {
+  padding: 0 12px;
+  margin-bottom: 8px;
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mantine-color-gray-5);
+}
+[data-mantine-color-scheme='dark'] .nav-label {
+  color: var(--mantine-color-dark-2);
+}
+
+/* ---- Navbar search ------------------------------------------------------ */
+/* Pill-shaped, borderless, sitting on a tinted fill rather than a stroke. */
+.navbar-search input {
+  background-color: var(--mantine-color-gray-0);
+  border-color: transparent;
+  border-radius: 999px;
+  height: 42px;
+}
+.navbar-search input::placeholder {
+  color: var(--mantine-color-gray-6);
+}
+.navbar-search input:focus {
+  background-color: var(--mantine-color-white);
+  border-color: var(--mantine-color-brand-4);
+}
+[data-mantine-color-scheme='dark'] .navbar-search input {
+  background-color: var(--mantine-color-dark-6);
+}
+[data-mantine-color-scheme='dark'] .navbar-search input::placeholder {
+  color: var(--mantine-color-dark-2);
+}
+[data-mantine-color-scheme='dark'] .navbar-search input:focus {
+  background-color: var(--mantine-color-dark-5);
+}
+
+/* ---- Motion ------------------------------------------------------------- */
+/* Route content settles in rather than snapping. */
+.mantine-AppShell-main > * {
+  animation: app-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes app-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ---- Browser surfaces --------------------------------------------------- */
+::selection {
+  background-color: var(--mantine-color-brand-2);
+  color: var(--mantine-color-brand-9);
+}
+[data-mantine-color-scheme='dark'] ::selection {
+  background-color: color-mix(in srgb, var(--mantine-color-brand-5) 45%, transparent);
+  color: var(--mantine-color-white);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mantine-color-gray-4) transparent;
+}
+[data-mantine-color-scheme='dark'] * {
+  scrollbar-color: var(--mantine-color-dark-3) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--mantine-color-gray-4);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--mantine-color-gray-5);
+}
+[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-thumb {
+  background-color: var(--mantine-color-dark-3);
+}
+[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--mantine-color-dark-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
