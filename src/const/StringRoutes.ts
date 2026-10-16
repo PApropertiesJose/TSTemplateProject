@@ -13,7 +13,7 @@ export const StringRoutes = {
   dashboard: '/dashboard',
 
   project_selection: '/project-select',
-  
+
   POCLandDev: '/POCLandDev',
 
   users: '/users',

@@ -4,6 +4,7 @@ import {
   IconSettings,
   IconUsers,
   IconHomeDown,
+  IconHomeCog,
 } from '@tabler/icons-react'
 import { StringRoutes } from './const/StringRoutes.ts'
 
@@ -61,6 +62,12 @@ export const NAV_ENTRIES: NavEntry[] = [
     to: `${StringRoutes.project_selection}/poc-landev`,
     label: 'POC Land Dev',
     icon: IconHomeDown
+  },
+  {
+    kind: 'link',
+    to: `${StringRoutes.project_selection}/billgress`,
+    label: 'Billgress',
+    icon: IconHomeCog
   },
   // {
   //   kind: 'link',
