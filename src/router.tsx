@@ -13,7 +13,9 @@ import { ProjectPage } from './pages/ProjectPage.tsx'
 import { SettingsPage } from './pages/SettingsPage.tsx'
 import { UsersPage } from './pages/UsersPage.tsx'
 import type { AuthState } from './stores/authStore.ts'
-import { POCLandDev } from './pages/POCLandDev/index.tsx'
+import POCLandDev from './pages/POCLandDev/index.tsx'
+import ProjectSelection, { projectSelectionRoute } from './pages/ProjectSelection/index.tsx'
+import { userRoute } from './pages/Users/index.tsx'
 
 /**
  * Auth reaches route guards through router context rather than by importing the
@@ -47,7 +49,7 @@ const loginRoute = createRoute({
 })
 
 /** Pathless layout route: everything below it requires a session. */
-const authenticatedRoute = createRoute({
+export const authenticatedRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'authenticated',
   beforeLoad: ({ context, location }) => {
@@ -73,21 +75,23 @@ const dashboardRoute = createRoute({
 })
 
 
+
 const pocLandDevRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: StringRoutes.POCLandDev,
-  component: POCLandDev(),
+  component: POCLandDev,
 })
 
-const usersRoute = createRoute({
-  getParentRoute: () => authenticatedRoute,
-  path: StringRoutes.users,
-  /** `q` is owned by the URL so the navbar search can deep-link into this page. */
-  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
-    q: typeof search.q === 'string' && search.q ? search.q : undefined,
-  }),
-  component: UsersPage,
-})
+
+// const usersRoute = createRoute({
+//   getParentRoute: () => authenticatedRoute,
+//   path: StringRoutes.users,
+//   /** `q` is owned by the URL so the navbar search can deep-link into this page. */
+//   validateSearch: (search: Record<string, unknown>): { q?: string } => ({
+//     q: typeof search.q === 'string' && search.q ? search.q : undefined,
+//   }),
+//   component: UsersPage,
+// })
 
 /** Detail route behind the collapsible Projects group in the sidebar. */
 const projectRoute = createRoute({
@@ -107,9 +111,10 @@ const routeTree = rootRoute.addChildren([
   authenticatedRoute.addChildren([
     indexRoute,
     dashboardRoute,
+    projectSelectionRoute,
     pocLandDevRoute,
     projectRoute,
-    usersRoute,
+    userRoute,
     settingsRoute,
   ]),
 ])

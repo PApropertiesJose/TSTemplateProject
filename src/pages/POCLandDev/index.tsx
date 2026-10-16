@@ -1,9 +1,12 @@
-import { Container } from 'react';
+import { Container, Tabs } from '@mantine/core';
+import { Outlet } from '@tanstack/react-router';
 
-export function POCLandDev() {
+const POCLandDev = () => {
   return (
-    <Container fluid p={0}>
+    <Container>
       POC land dev
     </Container>
   )
 }
+
+export default POCLandDev;

@@ -12,10 +12,7 @@ export type NavIcon = typeof IconLayoutDashboard
 /** A leaf entry that maps straight onto a static route. */
 export type NavLeaf = {
   kind: 'link'
-  to:
-    | typeof StringRoutes.dashboard
-    | typeof StringRoutes.users
-    | typeof StringRoutes.settings
+  to: string,
   label: string
   icon: NavIcon
 }
@@ -61,11 +58,16 @@ export const NAV_ENTRIES: NavEntry[] = [
   },
   {
     kind: 'link',
-    to: StringRoutes.POCLandDev,
-    label: "POC Land Dev",
+    to: `${StringRoutes.project_selection}/poc-landev`,
+    label: 'POC Land Dev',
     icon: IconHomeDown
-
   },
+  // {
+  //   kind: 'link',
+  //   to: StringRoutes.POCLandDev,
+  //   label: "POC Land Dev",
+  //   icon: IconHomeDown
+  // },
   { kind: 'group', id: 'projects', label: 'Projects', icon: IconFolders, children: PROJECTS },
   { kind: 'link', to: StringRoutes.users, label: 'Users', icon: IconUsers },
   { kind: 'link', to: StringRoutes.settings, label: 'Settings', icon: IconSettings },
